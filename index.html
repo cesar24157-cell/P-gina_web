@@ -6,14 +6,12 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0fdf4; color: #2d3748; display: flex; justify-content: center; padding: 20px; }
         .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 800px; }
-        #seccion-contenido { display: none; } /* Oculto al principio */
+        #seccion-contenido { display: none; } 
         
-        /* Estilos de la Tabla */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #faf5ff; }
         th, td { border: 1px solid #e9d8fd; padding: 12px; text-align: left; }
         th { background-color: #805ad5; color: white; }
         
-        /* Estilos Formulario */
         input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box; }
         button { background-color: #48bb78; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; }
         button:hover { background-color: #38a169; }
@@ -38,7 +36,7 @@
         
         <div class="info-saludable">
             <h3>Consejo de Vida Saludable del día:</h3>
-            <p>La **Lavanda** no solo embellece tu jardín, su aroma reduce el cortisol (la hormona del estrés). Inhala profundamente mientras las cuidas para mejorar tu salud mental.</p>
+            <p>La **Lavanda** no solo embellece tu jardín, su aroma reduce el cortisol. Inhala profundamente mientras las cuidas para mejorar tu salud mental.</p>
         </div>
 
         <h2>Guía de Cuidado de Lavandas</h2>
@@ -81,41 +79,3 @@
 
 <script>
     const form = document.getElementById('formulario');
-    const loginSec = document.getElementById('seccion-login');
-    const contenidoSec = document.getElementById('seccion-contenido');
-
-    form.onsubmit = async (e) => {
-        e.preventDefault();
-        
-        const nombre = document.getElementById('nombre').value;
-        const password = document.getElementById('password').value;
-
-        // Si no hay datos, no se envía nada (ya lo hace el 'required', pero aquí reforzamos)
-        if (!nombre || !password) return;
-
-        try {
-            // CAMBIA ESTA URL por la que te dé Render cuando subas tu API
-            const respuesta =await fetch('https://paec-web.onrender.com/registrar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nombre, password })
-});
-            });
-
-            const datos = await respuesta.json();
-
-            if (respuesta.ok) {
-                alert("¡Registro exitoso!");
-                loginSec.style.display = 'none';
-                contenidoSec.style.display = 'block';
-            } else {
-                alert(datos.error); // Aquí dirá "El nombre ya está registrado"
-            }
-        } catch (error) {
-            alert("Error al conectar con el servidor. ¿Olvidaste encender el API?");
-        }
-    };
-</script>
-
-</body>
-</html>
