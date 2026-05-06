@@ -8,7 +8,7 @@ app.use(express.json());
 
 // CONFIGURACIÓN: Aquí pega la "External Database URL" de Render
 const pool = new Pool({
-  connectionString:'postgres://usuario:contraseña@dpg-xxxxx-a.oregon-postgres.render.com/base_datos',
+  connectionString:'postgresql://pagina_rb6z_user:h328aWKwLHLMSYl8V5ZnoRoIY51yOOC1@dpg-d7t90freo5us73ft2ub0-a/pagina_rb6z',
   ssl: { rejectUnauthorized: false }
 });
 
