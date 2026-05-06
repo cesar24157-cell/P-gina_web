@@ -1,22 +1,24 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
+const path = require('path'); // <-- Importante para encontrar el HTML
 const app = express();
-const path = require('path');
-app.use(express.static(__dirname));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname)); // Sirve archivos como el index.html
 
-// Usamos process.env.DATABASE_URL para que sea seguro
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
+// Ruta para mostrar tu página de Vida Verde y Lavandas
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Ruta para registrar usuarios en la base de datos
 app.post('/registrar', async (req, res) => {
     const { nombre, password } = req.body;
     if (!nombre || !password) {
@@ -29,12 +31,10 @@ app.post('/registrar', async (req, res) => {
         if (err.code === '23505') {
             res.status(400).json({ error: "El nombre ya está registrado" });
         } else {
-            console.error(err);
             res.status(500).json({ error: "Error en el servidor" });
         }
     }
 });
 
-// Render asigna un puerto automáticamente, por eso usamos process.env.PORT
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
