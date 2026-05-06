@@ -6,31 +6,30 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// CONFIGURACIÓN: Aquí pega la "External Database URL" de Render
+// Usamos process.env.DATABASE_URL para que sea seguro
 const pool = new Pool({
-  connectionString:'postgresql://pagina_rb6z_user:h328aWKwLHLMSYl8V5ZnoRoIY51yOOC1@dpg-d7t90freo5us73ft2ub0-a/pagina_rb6z',
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
 app.post('/registrar', async (req, res) => {
     const { nombre, password } = req.body;
-
-    // Validación: Si no hay datos, no se envía nada
     if (!nombre || !password) {
         return res.status(400).json({ error: "Campos obligatorios" });
     }
-
     try {
         await pool.query('INSERT INTO usuarios (nombre, password) VALUES ($1, $2)', [nombre, password]);
         res.json({ mensaje: "Registro exitoso" });
     } catch (err) {
-        if (err.code === '23505') { // Error de nombre duplicado
+        if (err.code === '23505') {
             res.status(400).json({ error: "El nombre ya está registrado" });
         } else {
+            console.error(err);
             res.status(500).json({ error: "Error en el servidor" });
         }
     }
 });
 
+// Render asigna un puerto automáticamente, por eso usamos process.env.PORT
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
