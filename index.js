@@ -2,6 +2,8 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 const app = express();
+const path = require('path');
+app.use(express.static(__dirname)); // Esto le dice a Node que use los archivos de la carpeta
 
 app.use(cors());
 app.use(express.json());
