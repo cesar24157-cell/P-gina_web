@@ -95,7 +95,7 @@
 
         try {
             // CAMBIA ESTA URL por la que te dé Render cuando subas tu API
-            const respuesta = await fetch('http://localhost:3000/registrar', {
+            const respuesta = await fetch('https://tu-api-nombre.onrender.com/registrar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nombre, password })
